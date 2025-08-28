@@ -2,16 +2,17 @@
 module.exports = {
   siteUrl: "https://nizamportfolio-henna.vercel.app",
   generateRobotsTxt: true,
-  sitemapSize: 7000,
-  changefreq: "weekly",
-  priority: 0.7,
+  sitemapSize: 5000,
+  outDir: "./public",
+  // This ensures only one sitemap is generated, no sitemapindex
   transform: async (config, path) => {
     return {
-      loc: path,
-      changefreq: "weekly",
-      priority: path === "/" ? 1.0 : 0.7,
+      loc: config.siteUrl + path,
       lastmod: new Date().toISOString(),
-      alternateRefs: [],
+      changefreq: "weekly",
+      priority: 1.0,
     };
   },
+  // Disable creating sitemap index
+  sitemapIndexSize: 0,
 };
