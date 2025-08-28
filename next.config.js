@@ -3,7 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
   env: {
-    SITE_URL: process.env.SITE_URL || "https://nizamshan.dev",
+    SITE_URL:
+      process.env.SITE_URL || "https://nizamportfolio-henna.vercel.app/",
   },
 };
 

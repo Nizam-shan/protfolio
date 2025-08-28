@@ -6,11 +6,11 @@ const defaultSEOConfig = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://nizamshan.dev",
+    url: "https://nizamportfolio-henna.vercel.app/",
     site_name: "Nizam Shan Portfolio",
     images: [
       {
-        url: "https://nizamshan.dev/og.png",
+        url: "https://nizamportfolio-henna.vercel.app//og.png",
         width: 1200,
         height: 630,
         alt: "Nizam Shan Portfolio",

@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }) {
         openGraph={{
           type: "website",
           locale: "en_IN",
-          url: "https://nizamshan.dev",
+          url: "https://nizamportfolio-henna.vercel.app/",
           site_name: "Nizam Shan Portfolio",
         }}
         twitter={{
@@ -21,7 +21,10 @@ export default function App({ Component, pageProps }) {
         }}
         additionalLinkTags={[
           { rel: "icon", href: "/favicon.ico" },
-          { rel: "canonical", href: "https://nizamshan.dev" },
+          {
+            rel: "canonical",
+            href: "https://nizamportfolio-henna.vercel.app/",
+          },
         ]}
         additionalMetaTags={[
           { name: "theme-color", content: "#0ea5e9" },
