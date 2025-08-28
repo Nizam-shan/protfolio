@@ -29,6 +29,10 @@ const defaultSEOConfig = {
       content:
         "Nizam, Nizam Shan, Nizam Shan KN, Software Engineer, Full-Stack Developer, React, Next.js, Spring Boot, Portfolio",
     },
+    {
+      name: "google-site-verification",
+      content: "Z5-09igrGm-w9AuFBEvLmdQbf1zurrBk2ObExDOTruk",
+    },
   ],
 };
 
