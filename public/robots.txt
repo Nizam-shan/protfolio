@@ -2,8 +2,5 @@
 User-agent: *
 Allow: /
 
-# Host
-Host: https://nizamportfolio-henna.vercel.app/
-
 # Sitemaps
-Sitemap: https://nizamportfolio-henna.vercel.app//sitemap.xml
+Sitemap: https://nizamportfolio-henna.vercel.app/sitemap.xml

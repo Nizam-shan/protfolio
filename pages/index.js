@@ -12,8 +12,8 @@ export default function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Nizam Shan K N",
-    url: "/",
+    name: "Nizam Shan",
+    url: "https://nizamportfolio-henna.vercel.app/",
     email: "mailto:nizamshan27@gmail.com",
     telephone: "+91 9481267420",
     sameAs: [
@@ -26,13 +26,13 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Nizam Shan K N — Software Engineer</title>
+        <title>Nizam Shan — Software Engineer</title>
         <meta
           name="description"
           content="Portfolio of Nizam Shan — full-stack developer: React, Next.js, Spring Boot, Plotly, InfluxDB, Grafana."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="canonical" href="/" />
+        <link rel="canonical" href="https://nizamportfolio-henna.vercel.app/" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
