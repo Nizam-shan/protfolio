@@ -12,8 +12,8 @@ const defaultSEOConfig = {
     images: [
       {
         url: "https://nizamportfolio-henna.vercel.app/avatar/avatar3.jpeg",
-        width: 512,
-        height: 512,
+        width: 1200,
+        height: 630,
         alt: "Nizam Shan Portfolio",
       },
     ],
@@ -37,6 +37,10 @@ const defaultSEOConfig = {
     {
       name: "google-site-verification",
       content: "Z5-09igrGm-w9AuFBEvLmdQbf1zurrBk2ObExDOTruk",
+    },
+    {
+      name: "twitter:image",
+      content: "https://nizamportfolio-henna.vercel.app/avatar/avatar3.jpeg",
     },
   ],
 };
