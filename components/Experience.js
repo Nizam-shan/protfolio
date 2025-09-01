@@ -50,7 +50,8 @@ const Experience = () => {
         "Led development of 3 major client projects with 99.9% uptime",
         "Reduced API response time by 40% through optimization",
         "Implemented CI/CD pipeline reducing deployment time by 60%",
-        "Mentored 5 junior developers in best practices",
+        "Mentored 8+ junior developers in best practices",
+        "Architected microservices solutions for enterprise clients",
       ],
       technologies: [
         "React",
@@ -82,6 +83,7 @@ const Experience = () => {
         "Improved application performance by 35%",
         "Collaborated with UX team to enhance user experience",
         "Participated in code reviews and technical planning",
+        "Implemented automated testing reducing bugs by 50%",
       ],
       technologies: [
         "React",
