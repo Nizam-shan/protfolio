@@ -11,12 +11,17 @@ const defaultSEOConfig = {
     site_name: "Nizam Shan Portfolio",
     images: [
       {
-        url: "https://nizamportfolio-henna.vercel.app/avatar-nizam.png",
-        width: 1200,
-        height: 630,
+        url: "https://nizamportfolio-henna.vercel.app/avatar/avatar3.jpeg",
+        width: 512,
+        height: 512,
         alt: "Nizam Shan Portfolio",
       },
     ],
+  },
+  icons: {
+    icon: "https://nizamportfolio-henna.vercel.app/favicon/favicon.svg",
+    apple:
+      "https://nizamportfolio-henna.vercel.app/favicon/apple-touch-icon.png",
   },
   twitter: {
     handle: "@nizamshan",
