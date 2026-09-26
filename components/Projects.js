@@ -1,506 +1,216 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import {
   ExternalLink,
   Github,
-  Eye,
-  Code,
-  Database,
-  Server,
-  Globe,
-  Shield,
-  Cpu,
-  Zap,
-  Smartphone,
-  Cloud,
-  TestTube,
+  FolderGit2,
+  ArrowUpRight,
   Sparkles,
+  Zap,
+  Activity,
+  Layers,
 } from "lucide-react";
 
 const Projects = () => {
-  const [activeFilter, setActiveFilter] = useState("all");
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+  const [filter, setFilter] = useState("all");
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.4,
-      },
-    },
-  };
-
-  const filters = [
-    { id: "all", label: "All Projects", icon: Sparkles },
-    { id: "frontend", label: "Frontend", icon: Code },
-    { id: "backend", label: "Backend", icon: Server },
-    { id: "fullstack", label: "Full Stack", icon: Globe },
-    { id: "web3", label: "Web3", icon: Zap },
-    { id: "ml", label: "AI/ML", icon: Cpu },
-    { id: "mobile", label: "Mobile", icon: Smartphone },
-    { id: "cloud", label: "Cloud", icon: Cloud },
-    { id: "testing", label: "Testing", icon: TestTube },
+  const categories = [
+    { id: "all", label: "All Projects" },
+    { id: "fullstack", label: "Full Stack" },
+    { id: "backend", label: "Microservices & Telemetry" },
+    { id: "ai", label: "AI & Emerging" },
   ];
 
   const projects = [
     {
-      id: 1,
-      title: "Merchant Ops Dashboard (Web3)",
-      description:
-        "A comprehensive Next.js dashboard for merchants to manage profiles, campaigns, settlements, staff, and transactions with real-time data visualization.",
-      image: "/api/placeholder/400/300",
-      category: "frontend",
-      technologies: [
-        "Next.js",
-        "React",
-        "TypeScript",
-        "Tailwind CSS",
-        "Web3",
-        "Ethereum",
-      ],
-      features: [
-        "Real-time analytics",
-        "Campaign management",
-        "Staff management",
-      ],
-      githubUrl: "https://github.com/username/project1",
-      liveUrl: "https://project1.com",
-      color: "from-purple-500 to-pink-500",
-      gradient: "bg-gradient-to-br from-purple-500 to-pink-500",
-    },
-    {
-      id: 2,
-      title: "Fintech E-commerce Platform",
-      description:
-        "A full-stack e-commerce solution with secure payment processing, user management, and comprehensive admin panel built with React and Spring Boot.",
-      image: "/api/placeholder/400/300",
+      id: "merchant-ops",
+      title: "Merchant Operations & Settlement Portal (Web3)",
       category: "fullstack",
-      technologies: [
-        "React",
-        "Spring Boot",
-        "MongoDB",
-        "Redis",
-        "Stripe",
-        "AWS",
-      ],
-      features: [
-        "Secure payments",
-        "User authentication",
-        "Product management",
-      ],
-      githubUrl: "https://github.com/username/project2",
-      liveUrl: "https://project2.com",
-      color: "from-cyan-500 to-blue-500",
-      gradient: "bg-gradient-to-br from-cyan-500 to-blue-500",
+      scope: "Enterprise SaaS • 2024",
+      description:
+        "High-performance operations portal enabling enterprise merchants to oversee real-time transactions, manage multi-tier staff permissions, and process cryptographic settlement batches.",
+      metrics: ["Real-time transaction streams", "Role-Based Access Control", "Exportable audit ledgers"],
+      stack: ["Next.js 14", "React", "TypeScript", "Tailwind CSS", "Web3 / Ethers.js"],
+      github: "https://github.com/Nizam-shan",
+      live: "https://github.com/Nizam-shan",
     },
     {
-      id: 3,
-      title: "Data Analytics Dashboard",
+      id: "fintech-core",
+      title: "Fintech E-Commerce & Checkout Engine",
+      category: "fullstack",
+      scope: "Fintech Platform • 2023 - 2024",
       description:
-        "Real-time data visualization platform using Plotly, InfluxDB, and Grafana for monitoring system performance and user analytics.",
-      image: "/api/placeholder/400/300",
+        "End-to-end payment processing web architecture supporting dynamic card checkouts, webhook settlement handling, real-time inventory locking, and admin analytics.",
+      metrics: ["Sub-100ms catalog caching", "PCI-compliant checkout pipeline", "Zero-failure webhook queues"],
+      stack: ["React", "Spring Boot", "MongoDB", "Redis", "Stripe API", "AWS"],
+      github: "https://github.com/Nizam-shan",
+      live: "https://github.com/Nizam-shan",
+    },
+    {
+      id: "telemetry-viz",
+      title: "Real-Time Telemetry & Data Visualizer",
       category: "backend",
-      technologies: [
-        "Python",
-        "Plotly",
-        "InfluxDB",
-        "Grafana",
-        "Docker",
-        "Kubernetes",
-      ],
-      features: ["Real-time monitoring", "Custom dashboards", "Data export"],
-      githubUrl: "https://github.com/username/project3",
-      liveUrl: "https://project3.com",
-      color: "from-green-500 to-emerald-500",
-      gradient: "bg-gradient-to-br from-green-500 to-emerald-500",
+      scope: "Data Platform • 2025",
+      description:
+        "Industrial telemetry platform combining custom high-frequency Plotly.js chart modules, InfluxDB time-series streaming, and automated anomaly alert thresholds.",
+      metrics: ["High-frequency time-series plots", "Automated anomaly alerts", "Configurable widget export"],
+      stack: ["Python", "Plotly.js", "InfluxDB", "Grafana", "Docker", "REST APIs"],
+      github: "https://github.com/Nizam-shan",
+      live: "https://github.com/Nizam-shan",
     },
     {
-      id: 4,
-      title: "Microservices API Gateway",
-      description:
-        "High-performance API gateway built with Spring Cloud Gateway for routing, authentication, and rate limiting across microservices.",
-      image: "/api/placeholder/400/300",
+      id: "api-gateway",
+      title: "Distributed Microservices API Gateway",
       category: "backend",
-      technologies: [
-        "Spring Cloud",
-        "Java",
-        "Redis",
-        "Kubernetes",
-        "Docker",
-        "Prometheus",
-      ],
-      features: ["Service discovery", "Load balancing", "Rate limiting"],
-      githubUrl: "https://github.com/username/project4",
-      liveUrl: "https://project4.com",
-      color: "from-blue-500 to-cyan-500",
-      gradient: "bg-gradient-to-br from-blue-500 to-cyan-500",
+      scope: "System Architecture • 2024",
+      description:
+        "Resilient API gateway utilizing Spring Cloud Gateway for centralized token authentication, route discovery, Redis token-bucket rate limiting, and circuit breaking.",
+      metrics: ["Token-bucket rate limiting", "Fault-tolerant circuit breakers", "Distributed trace logs"],
+      stack: ["Spring Cloud", "Java", "Redis", "Docker", "Prometheus", "JWT"],
+      github: "https://github.com/Nizam-shan",
+      live: "https://github.com/Nizam-shan",
     },
     {
-      id: 5,
-      title: "Automation Testing with Selenium",
+      id: "rag-ai",
+      title: "RAG Intelligent Document Assistant",
+      category: "ai",
+      scope: "AI Engineering • 2025",
       description:
-        "A robust test automation framework using Selenium for web applications to ensure quality, reliability, and regression testing.",
-      image: "/api/placeholder/400/300",
-      category: "testing",
-      technologies: [
-        "Java",
-        "Selenium WebDriver",
-        "TestNG",
-        "Maven",
-        "Jenkins",
-        "Allure",
-      ],
-      features: [
-        "Cross-browser testing",
-        "Regression test suite",
-        "CI/CD integration",
-      ],
-      githubUrl: "https://github.com/username/project5",
-      liveUrl: "https://project5.com",
-      color: "from-orange-500 to-red-500",
-      gradient: "bg-gradient-to-br from-orange-500 to-red-500",
+        "Context-aware enterprise retrieval assistant implementing vector embeddings, LangChain pipeline chunking, and generative AI models for instant internal knowledge search.",
+      metrics: ["Sub-second hybrid search", "Vector database embeddings", "Streaming markdown responses"],
+      stack: ["Python", "FastAPI", "VectorDB", "LangChain", "AWS Bedrock", "Redis"],
+      github: "https://github.com/Nizam-shan",
+      live: "https://github.com/Nizam-shan",
     },
     {
-      id: 6,
-      title: "AI Model with RAG & Vector DB",
+      id: "realestate-native",
+      title: "Real Estate Property Exploration App",
+      category: "fullstack",
+      scope: "Mobile & Web • 2024",
       description:
-        "An AI-powered project implementing Retrieval-Augmented Generation (RAG) with vector databases for intelligent question answering.",
-      image: "/api/placeholder/400/300",
-      category: "ml",
-      technologies: [
-        "Python",
-        "LangChain",
-        "VectorDB",
-        "Transformers",
-        "FastAPI",
-        "Redis",
-      ],
-      features: [
-        "Context-aware Q&A",
-        "Vector search",
-        "Knowledge base integration",
-      ],
-      githubUrl: "https://github.com/username/project6",
-      liveUrl: "https://project6.com",
-      color: "from-indigo-500 to-purple-500",
-      gradient: "bg-gradient-to-br from-indigo-500 to-purple-500",
-    },
-    {
-      id: 7,
-      title: "Voice Agent with DeepSeek",
-      description:
-        "A voice-driven intelligent agent powered by DeepSeek models, enabling real-time speech recognition and conversational AI.",
-      image: "/api/placeholder/400/300",
-      category: "ml",
-      technologies: [
-        "Python",
-        "DeepSeek",
-        "SpeechRecognition",
-        "PyTorch",
-        "WebRTC",
-        "FastAPI",
-      ],
-      features: [
-        "Voice commands",
-        "Real-time speech-to-text",
-        "Conversational responses",
-      ],
-      githubUrl: "https://github.com/username/project7",
-      liveUrl: "https://project7.com",
-      color: "from-pink-500 to-rose-500",
-      gradient: "bg-gradient-to-br from-pink-500 to-rose-500",
-    },
-    {
-      id: 8,
-      title: "Real Estate App (React Native)",
-      description:
-        "A mobile app for browsing, filtering, and managing real estate properties with modern UI/UX and smooth performance.",
-      image: "/api/placeholder/400/300",
-      category: "mobile",
-      technologies: [
-        "React Native",
-        "Expo",
-        "Redux",
-        "Firebase",
-        "Google Maps",
-        "Stripe",
-      ],
-      features: [
-        "Property listing & search",
-        "Map integration",
-        "User authentication",
-      ],
-      githubUrl: "https://github.com/username/project8",
-      liveUrl: "https://project8.com",
-      color: "from-teal-500 to-cyan-500",
-      gradient: "bg-gradient-to-br from-teal-500 to-cyan-500",
-    },
-    {
-      id: 9,
-      title: "AWS Bedrock with Node.js",
-      description:
-        "A Node.js integration with AWS Bedrock for deploying and managing generative AI models with cloud scalability.",
-      image: "/api/placeholder/400/300",
-      category: "cloud",
-      technologies: [
-        "Node.js",
-        "AWS Bedrock",
-        "Express",
-        "Lambda",
-        "DynamoDB",
-        "CloudFormation",
-      ],
-      features: [
-        "Generative AI deployment",
-        "Serverless functions",
-        "Secure API endpoints",
-      ],
-      githubUrl: "https://github.com/username/project9",
-      liveUrl: "https://project9.com",
-      color: "from-yellow-500 to-orange-500",
-      gradient: "bg-gradient-to-br from-yellow-500 to-orange-500",
+        "Mobile property discovery app featuring interactive map clusters, saved portfolio bookmarks, offline state synchronization, and instant direct inquiry routing.",
+      metrics: ["Interactive geolocation markers", "Offline bookmark sync", "Smooth native gestures"],
+      stack: ["React Native", "Expo", "Redux Toolkit", "Firebase", "Google Maps SDK"],
+      github: "https://github.com/Nizam-shan",
+      live: "https://github.com/Nizam-shan",
     },
   ];
 
-  const filteredProjects = projects.filter(
-    (project) => activeFilter === "all" || project.category === activeFilter
+  const filtered = projects.filter(
+    (p) => filter === "all" || p.category === filter
   );
 
-  const ProjectCard = ({ project, index }) => (
-    <div
-      className="group relative"
-      style={{
-        animationDelay: `${index * 0.1}s`,
-        animation: "fadeInUp 0.4s ease-out forwards",
-        opacity: 0,
-      }}
-    >
-      <div className="card overflow-hidden glow">
-        {/* Project Image */}
-        <div className="relative h-48 overflow-hidden">
-          <div
-            className={`absolute inset-0 ${project.gradient} opacity-20`}
-          ></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-          <div className="absolute top-4 right-4 flex gap-2">
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full bg-black/50 backdrop-blur-sm hover:bg-black/70 transition-all duration-200"
-            >
-              <Github className="w-4 h-4 text-white" />
-            </a>
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full bg-black/50 backdrop-blur-sm hover:bg-black/70 transition-all duration-200"
-            >
-              <ExternalLink className="w-4 h-4 text-white" />
-            </a>
-          </div>
-          <div className="absolute bottom-4 left-4">
-            <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-medium">
-              {project.category}
-            </span>
-          </div>
-        </div>
-
-        {/* Project Content */}
-        <div className="p-6">
-          <h3 className="text-xl font-semibold text-white mb-3 text-heading group-hover:text-cyan-300 transition-colors duration-300">
-            {project.title}
-          </h3>
-
-          <p className="text-slate-400 text-sm mb-4 text-body leading-relaxed">
-            {project.description}
-          </p>
-
-          {/* Technologies */}
-          <div className="mb-4">
-            <div className="flex flex-wrap gap-2">
-              {project.technologies.slice(0, 4).map((tech) => (
-                <span
-                  key={tech}
-                  className="px-2 py-1 rounded-md bg-slate-800/50 text-slate-300 text-xs font-mono border border-slate-700/50"
-                >
-                  {tech}
-                </span>
-              ))}
-              {project.technologies.length > 4 && (
-                <span className="px-2 py-1 rounded-md bg-slate-800/50 text-slate-400 text-xs">
-                  +{project.technologies.length - 4} more
-                </span>
-              )}
+  return (
+    <section id="projects" className="py-24 relative overflow-hidden bg-white dark:bg-zinc-950">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header with Categorical Switcher */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-200 bg-zinc-50 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 text-xs font-medium mb-3">
+              <FolderGit2 className="w-3.5 h-3.5 text-indigo-500" />
+              <span>Selected Work</span>
             </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+              Featured Case Studies
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mt-1 max-w-lg font-normal">
+              Production systems, architecture designs, and real-world software products.
+            </p>
           </div>
 
-          {/* Features */}
-          <div className="space-y-2">
-            {project.features.map((feature, idx) => (
-              <div key={idx} className="flex items-center gap-2">
-                <div
-                  className={`w-2 h-2 rounded-full ${project.gradient}`}
-                ></div>
-                <span className="text-slate-400 text-xs">{feature}</span>
-              </div>
+          {/* Filter Pills */}
+          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-full border border-zinc-200 bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setFilter(cat.id)}
+                className={`px-3 py-1 text-xs font-semibold rounded-full transition-all ${
+                  filter === cat.id
+                    ? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-800 dark:text-white"
+                    : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                }`}
+              >
+                {cat.label}
+              </button>
             ))}
           </div>
         </div>
 
-        {/* Hover Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-      </div>
-    </div>
-  );
-
-  return (
-    <section id="projects" className="py-24 relative overflow-hidden">
-      {/* Modern Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-slate-800"></div>
-      <div className="absolute inset-0 ai-particles"></div>
-      <div className="absolute inset-0 ai-grid opacity-20"></div>
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-        >
-          {/* Modern Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-20">
-            <motion.div
-              className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-elevated border border-cyan-500/30 mb-8 glow"
-              whileHover={{ scale: 1.02 }}
+        {/* 2026 Work-First Bento Cards */}
+        <div className="grid md:grid-cols-2 gap-6">
+          {filtered.map((item) => (
+            <div
+              key={item.id}
+              className="bento-card p-6 sm:p-7 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-300 bg-zinc-50/80 dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800"
             >
-              <Code className="w-5 h-5 text-cyan-400 animate-pulse" />
-              <span className="text-sm font-medium text-cyan-300">
-                Featured Projects
-              </span>
-            </motion.div>
-
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-heading">
-              <span className="text-white">My Creative </span>
-              <span className="gradient-text">Portfolio</span>
-            </h2>
-
-            <p className="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed text-body">
-              A showcase of my best work, demonstrating expertise in full-stack
-              development, modern technologies, and innovative solutions for
-              real-world problems.
-            </p>
-          </motion.div>
-
-          {/* Modern Filter Buttons */}
-          <motion.div variants={itemVariants} className="mb-16">
-            <div className="flex flex-wrap justify-center gap-4">
-              {filters.map((filter) => {
-                const projectCount =
-                  filter.id === "all"
-                    ? projects.length
-                    : projects.filter((p) => p.category === filter.id).length;
-
-                return (
-                  <button
-                    key={filter.id}
-                    onClick={() => setActiveFilter(filter.id)}
-                    className={`px-6 py-3 rounded-full glass-elevated border transition-all duration-200 hover:scale-105 hover:-translate-y-1 ${
-                      activeFilter === filter.id
-                        ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-300"
-                        : "border-slate-600/30 text-slate-400 hover:border-cyan-500/30 hover:text-cyan-300"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <filter.icon className="w-4 h-4" />
-                      <span className="text-sm font-medium">
-                        {filter.label}
-                      </span>
-                      <span className="px-2 py-1 rounded-full bg-slate-700/50 text-xs font-mono">
-                        {projectCount}
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </motion.div>
-
-          {/* Modern Projects Grid */}
-          <motion.div variants={itemVariants}>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProjects.length > 0 ? (
-                filteredProjects.map((project, index) => (
-                  <ProjectCard
-                    key={project.id}
-                    project={project}
-                    index={index}
-                  />
-                ))
-              ) : (
-                <div className="col-span-full text-center py-16">
-                  <div className="card p-12 glow">
-                    <div className="text-6xl mb-4">🔍</div>
-                    <h3 className="text-2xl font-bold text-white mb-4 text-heading">
-                      No projects found
-                    </h3>
-                    <p className="text-slate-400 mb-6 text-body">
-                      No projects match the "{activeFilter}" filter. Try
-                      selecting a different category.
-                    </p>
-                    <button
-                      onClick={() => setActiveFilter("all")}
-                      className="btn-primary px-6 py-3"
+              <div>
+                {/* Meta Header */}
+                <div className="flex items-center justify-between text-xs mb-3 pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                  <span className="font-mono text-xs font-semibold text-zinc-600 dark:text-zinc-400">
+                    {item.scope}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={item.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-colors"
+                      aria-label="GitHub Repository"
+                      title="GitHub Repository"
                     >
-                      View All Projects
-                    </button>
+                      <Github className="w-4 h-4" />
+                    </a>
+                    <a
+                      href={item.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-colors"
+                      aria-label="View Project"
+                      title="View Project Link"
+                    >
+                      <ArrowUpRight className="w-4 h-4" />
+                    </a>
                   </div>
                 </div>
-              )}
-            </div>
-          </motion.div>
 
-          {/* Modern CTA Section */}
-          <motion.div variants={itemVariants} className="mt-20 text-center">
-            <div className="card p-12 glow">
-              <h3 className="text-3xl font-bold text-white mb-6 text-heading">
-                Ready to Start Your Next Project?
-              </h3>
-              <p className="text-slate-300 mb-8 text-body max-w-2xl mx-auto">
-                Let's collaborate to bring your ideas to life with cutting-edge
-                technology and innovative solutions.
-              </p>
-              <motion.button
-                className="btn-primary px-8 py-4 text-lg font-semibold"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="flex items-center gap-3">
-                  Get In Touch
-                  <Zap className="w-5 h-5" />
-                </span>
-              </motion.button>
+                {/* Project Title */}
+                <h3 className="text-lg sm:text-xl font-bold text-zinc-900 dark:text-white mb-2.5 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  {item.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed mb-5 text-body font-normal">
+                  {item.description}
+                </p>
+
+                {/* Key Deliverable Metrics */}
+                <div className="space-y-1.5 mb-6">
+                  {item.metrics.map((metric, mIdx) => (
+                    <div
+                      key={mIdx}
+                      className="flex items-center gap-2 text-xs font-mono font-medium text-zinc-800 dark:text-zinc-200"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                      <span>{metric}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Technologies */}
+              <div className="flex flex-wrap gap-1.5 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                {item.stack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="text-xs font-mono px-2.5 py-1 rounded-md bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 font-medium"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
             </div>
-          </motion.div>
-        </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

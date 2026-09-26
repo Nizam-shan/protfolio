@@ -1,27 +1,31 @@
 const defaultSEOConfig = {
-  titleTemplate: "%s | Nizam Shan — Software Engineer",
-  defaultTitle: "Nizam Shan — Software Engineer",
+  titleTemplate: "%s | Nizam Shan",
+  defaultTitle: "Nizam Shan | Full-Stack Software Engineer Portfolio",
   description:
-    "Senior Software Engineer portfolio showcasing React, Next.js, Spring Boot, data visualizations, and scalable systems.",
+    "Official portfolio of Nizam Shan, Full-Stack Software Engineer specializing in React, Next.js, TypeScript, Spring Boot, and scalable enterprise systems. Based in Bangalore, India.",
   canonical: "https://nizamportfolio-henna.vercel.app/",
   openGraph: {
-    type: "website",
+    type: "profile",
     locale: "en_IN",
     url: "https://nizamportfolio-henna.vercel.app/",
-    site_name: "Nizam Shan Portfolio",
+    siteName: "Nizam Shan Portfolio",
+    title: "Nizam Shan | Full-Stack Software Engineer",
+    description:
+      "Explore the software engineering portfolio, enterprise projects, and technical skills of Nizam Shan.",
+    profile: {
+      firstName: "Nizam",
+      lastName: "Shan",
+      username: "Nizam-shan",
+      gender: "male",
+    },
     images: [
       {
         url: "https://nizamportfolio-henna.vercel.app/avatar/avatar3.jpeg",
         width: 1200,
         height: 630,
-        alt: "Nizam Shan Portfolio",
+        alt: "Nizam Shan - Full-Stack Software Engineer",
       },
     ],
-  },
-  icons: {
-    icon: "https://nizamportfolio-henna.vercel.app/favicon/favicon.svg",
-    apple:
-      "https://nizamportfolio-henna.vercel.app/favicon/apple-touch-icon.png",
   },
   twitter: {
     handle: "@nizamshan",
@@ -30,17 +34,25 @@ const defaultSEOConfig = {
   },
   additionalMetaTags: [
     {
+      name: "author",
+      content: "Nizam Shan",
+    },
+    {
       name: "keywords",
       content:
-        "Nizam, Nizam Shan, Nizam Shan KN, Software Engineer, Full-Stack Developer, React, Next.js, Spring Boot, Portfolio",
+        "Nizam Shan, Nizamshan, Nizam Shan KN, Nizam-shan, Nizam Shan portfolio, Nizam Shan software engineer, Nizam Shan developer, Nizam Shan Bangalore, full stack developer Nizam Shan, React, Next.js, Spring Boot, Software Engineer India",
+    },
+    {
+      name: "robots",
+      content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    },
+    {
+      name: "googlebot",
+      content: "index, follow",
     },
     {
       name: "google-site-verification",
       content: "Z5-09igrGm-w9AuFBEvLmdQbf1zurrBk2ObExDOTruk",
-    },
-    {
-      name: "twitter:image",
-      content: "https://nizamportfolio-henna.vercel.app/avatar/avatar3.jpeg",
     },
   ],
 };

@@ -1,391 +1,143 @@
-import { useState, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
-import { useInView as useInViewObserver } from "react-intersection-observer";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import {
-  Code,
+  Code2,
   Database,
   Cloud,
   Wrench,
-  Palette,
   Cpu,
-  Zap,
-  Shield,
-  Globe,
-  Smartphone,
   Layers,
-  GitBranch,
+  Sparkles,
+  Terminal,
 } from "lucide-react";
 
 const Skills = () => {
-  const [ref, inView] = useInViewObserver({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+  const [activeTab, setActiveTab] = useState("all");
 
-  const [activeCategory, setActiveCategory] = useState("frontend");
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const skillCategories = [
-    {
-      id: "frontend",
-      icon: Code,
-      title: "Frontend Technologies",
-      color: "from-cyan-500 to-blue-500",
-      gradient: "bg-gradient-to-br from-cyan-500 to-blue-500",
-      skills: [
-        { name: "React.js", level: 95, icon: "⚛️" },
-        { name: "Next.js", level: 90, icon: "▲" },
-        { name: "TypeScript", level: 85, icon: "📘" },
-        { name: "Tailwind CSS", level: 90, icon: "🎨" },
-        { name: "HTML/CSS", level: 95, icon: "🌐" },
-        { name: "JavaScript (ES6+)", level: 95, icon: "💻" },
-      ],
-    },
-    {
-      id: "backend",
-      icon: Database,
-      title: "Backend Technologies",
-      color: "from-purple-500 to-pink-500",
-      gradient: "bg-gradient-to-br from-purple-500 to-pink-500",
-      skills: [
-        { name: "Spring Boot", level: 90, icon: "🍃" },
-        { name: "Java", level: 85, icon: "☕" },
-        { name: "Node.js", level: 80, icon: "🟢" },
-        { name: "Express.js", level: 75, icon: "🚀" },
-        { name: "REST APIs", level: 90, icon: "🔗" },
-        { name: "GraphQL", level: 70, icon: "📊" },
-      ],
-    },
-    {
-      id: "databases",
-      icon: Database,
-      title: "Databases & Storage",
-      color: "from-blue-500 to-cyan-500",
-      gradient: "bg-gradient-to-br from-blue-500 to-cyan-500",
-      skills: [
-        { name: "MongoDB", level: 85, icon: "🍃" },
-        { name: "PostgreSQL", level: 80, icon: "🐘" },
-        { name: "MySQL", level: 75, icon: "🐬" },
-        { name: "Redis", level: 70, icon: "🔴" },
-        { name: "InfluxDB", level: 75, icon: "📈" },
-        { name: "Elasticsearch", level: 65, icon: "🔍" },
-      ],
-    },
-    {
-      id: "cloud",
-      icon: Cloud,
-      title: "Cloud & DevOps",
-      color: "from-indigo-500 to-purple-500",
-      gradient: "bg-gradient-to-br from-indigo-500 to-purple-500",
-      skills: [
-        { name: "AWS", level: 80, icon: "☁️" },
-        { name: "Docker", level: 85, icon: "🐳" },
-        { name: "Kubernetes", level: 70, icon: "⚓" },
-        { name: "CI/CD", level: 80, icon: "🔄" },
-        { name: "Terraform", level: 65, icon: "🏗️" },
-        { name: "Monitoring", level: 75, icon: "📊" },
-      ],
-    },
-    {
-      id: "tools",
-      icon: Wrench,
-      title: "Tools & Platforms",
-      color: "from-orange-500 to-red-500",
-      gradient: "bg-gradient-to-br from-orange-500 to-red-500",
-      skills: [
-        { name: "Git", level: 90, icon: "📝" },
-        { name: "VS Code", level: 95, icon: "💻" },
-        { name: "Postman", level: 85, icon: "📮" },
-        { name: "Grafana", level: 80, icon: "📈" },
-        { name: "Plotly", level: 85, icon: "📊" },
-        { name: "Jira", level: 80, icon: "🎯" },
-      ],
-    },
-    {
-      id: "mobile",
-      icon: Smartphone,
-      title: "Mobile & Emerging",
-      color: "from-green-500 to-emerald-500",
-      gradient: "bg-gradient-to-br from-green-500 to-emerald-500",
-      skills: [
-        { name: "React Native", level: 75, icon: "📱" },
-        { name: "Flutter", level: 60, icon: "🦋" },
-        { name: "AI/ML", level: 70, icon: "🤖" },
-        { name: "Web3", level: 65, icon: "⛓️" },
-        { name: "Blockchain", level: 60, icon: "🔗" },
-        { name: "IoT", level: 55, icon: "🌐" },
-      ],
-    },
+  const categories = [
+    { id: "all", label: "All Stack" },
+    { id: "frontend", label: "Frontend", icon: Code2 },
+    { id: "backend", label: "Backend", icon: Database },
+    { id: "data", label: "Data & Storage", icon: Layers },
+    { id: "cloud", label: "Cloud & DevOps", icon: Cloud },
+    { id: "ai", label: "AI & Analytics", icon: Cpu },
   ];
 
-  const SkillBar = ({ skill, isVisible }) => (
-    <motion.div
-      className="mb-6"
-      initial={{ opacity: 0, x: -20 }}
-      animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-      transition={{ duration: 0.6, delay: 0.1 }}
-    >
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-3">
-          <span className="text-lg">{skill.icon}</span>
-          <span className="text-sm font-medium text-slate-300">
-            {skill.name}
-          </span>
-        </div>
-        <span className="text-xs text-slate-400 font-mono">{skill.level}%</span>
-      </div>
-      <div className="progress-bar h-2">
-        <motion.div
-          className="progress-fill"
-          initial={{ width: 0 }}
-          animate={isVisible ? { width: `${skill.level}%` } : { width: 0 }}
-          transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
-        />
-      </div>
-    </motion.div>
+  const skillMatrix = [
+    // Frontend
+    { name: "React 18", category: "frontend", status: "Primary", note: "Hooks, Fiber, Suspense" },
+    { name: "Next.js 14", category: "frontend", status: "Primary", note: "App/Pages Router, SSR/SSG" },
+    { name: "TypeScript", category: "frontend", status: "Primary", note: "Strict typing, Generics" },
+    { name: "Tailwind CSS", category: "frontend", status: "Primary", note: "Design systems, Responsive" },
+    { name: "JavaScript (ES6+)", category: "frontend", status: "Expert", note: "Async/Await, DOM, Event loop" },
+    { name: "Angular", category: "frontend", status: "Production", note: "Components, Services, RxJS" },
+    { name: "Redux Toolkit / Zustand", category: "frontend", status: "Production", note: "Global state management" },
+    { name: "HTML5 / Semantic Web", category: "frontend", status: "Expert", note: "Accessibility & Core Web Vitals" },
+
+    // Backend
+    { name: "Spring Boot", category: "backend", status: "Primary", note: "Microservices, Security, JPA" },
+    { name: "Java", category: "backend", status: "Primary", note: "OOP, Multithreading, Streams" },
+    { name: "Node.js", category: "backend", status: "Production", note: "Event-driven runtime" },
+    { name: "Express.js", category: "backend", status: "Production", note: "RESTful API routing" },
+    { name: "RESTful Microservices", category: "backend", status: "Primary", note: "API design & documentation" },
+    { name: "Spring Cloud Gateway", category: "backend", status: "Production", note: "Routing & Rate-limiting" },
+
+    // Data & Storage
+    { name: "MongoDB", category: "data", status: "Primary", note: "Aggregation pipeline, Indexing" },
+    { name: "PostgreSQL", category: "data", status: "Production", note: "Relational queries, Triggers" },
+    { name: "Redis", category: "data", status: "Production", note: "Distributed cache, In-memory" },
+    { name: "InfluxDB", category: "data", status: "Production", note: "Time-series telemetry storage" },
+    { name: "MySQL", category: "data", status: "Production", note: "Schema design & normalization" },
+
+    // Cloud & DevOps
+    { name: "AWS (S3, EC2, Lambda)", category: "cloud", status: "Production", note: "Serverless & compute" },
+    { name: "Docker", category: "cloud", level: "Production", status: "Production", note: "Containerization & images" },
+    { name: "CI/CD (GitHub Actions)", category: "cloud", status: "Production", note: "Automated pipelines" },
+    { name: "Kubernetes Basics", category: "cloud", status: "Familiar", note: "Pods & deployments" },
+    { name: "Vercel Deployment", category: "cloud", status: "Production", note: "Edge hosting & domains" },
+
+    // AI & Analytics
+    { name: "Plotly.js", category: "ai", status: "Primary", note: "Interactive dynamic charts" },
+    { name: "Grafana", category: "ai", status: "Production", note: "Metrics dashboarding & alerts" },
+    { name: "AWS Bedrock", category: "ai", status: "Production", note: "Generative AI foundational models" },
+    { name: "Agentic AI Workflows", category: "ai", status: "Production", note: "Multi-agent autonomous systems" },
+    { name: "RAG & Vector DBs", category: "ai", status: "Production", note: "Embeddings & retrieval" },
+    { name: "Postman", category: "ai", status: "Expert", note: "API testing & mock servers" },
+  ];
+
+  const filteredSkills = skillMatrix.filter(
+    (item) => activeTab === "all" || item.category === activeTab
   );
 
   return (
-    <section id="skills" className="py-24 relative overflow-hidden">
-      {/* Modern Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-slate-800"></div>
-      <div className="absolute inset-0 ai-particles"></div>
-      <div className="absolute inset-0 ai-grid opacity-20"></div>
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-        >
-          {/* Modern Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-20">
-            <motion.div
-              className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-elevated border border-cyan-500/30 mb-8 glow"
-              whileHover={{ scale: 1.02 }}
-            >
-              <Cpu className="w-5 h-5 text-cyan-400 animate-pulse" />
-              <span className="text-sm font-medium text-cyan-300">
-                Technical Proficiency
-              </span>
-            </motion.div>
-
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-heading">
-              <span className="text-white">Skills & </span>
-              <span className="gradient-text">Expertise</span>
+    <section id="skills" className="py-24 relative overflow-hidden bg-zinc-50 dark:bg-zinc-950/60">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 text-xs font-medium mb-3">
+              <Terminal className="w-3.5 h-3.5 text-indigo-500" />
+              <span>Technical Stack</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+              Engineering Matrix
             </h2>
-
-            <p className="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed text-body">
-              A comprehensive overview of my technical skills and expertise
-              across the full development stack. Continuously learning and
-              adapting to new technologies.
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-lg">
+              Production-hardened languages, frameworks, and database architectures.
             </p>
-          </motion.div>
+          </div>
 
-          {/* Modern Category Tabs */}
-          <motion.div variants={itemVariants} className="mb-16">
-            <div className="flex flex-wrap justify-center gap-4">
-              {skillCategories.map((category) => (
-                <motion.button
-                  key={category.id}
-                  onClick={() => setActiveCategory(category.id)}
-                  className={`px-6 py-3 rounded-full glass-elevated border transition-all duration-300 ${
-                    activeCategory === category.id
-                      ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-300"
-                      : "border-slate-600/30 text-slate-400 hover:border-cyan-500/30 hover:text-cyan-300"
-                  }`}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <div className="flex items-center gap-2">
-                    <category.icon className="w-4 h-4" />
-                    <span className="text-sm font-medium">
-                      {category.title}
-                    </span>
-                  </div>
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Modern Skills Display */}
-          <motion.div
-            variants={itemVariants}
-            className="grid lg:grid-cols-2 gap-12"
-          >
-            {/* Left Column - Skills List */}
-            <div className="space-y-8">
-              <motion.div
-                className="card p-8 glow"
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6 }}
+          {/* Filter Pills */}
+          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-full border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveTab(cat.id)}
+                className={`px-3 py-1 text-xs font-semibold rounded-full transition-all ${
+                  activeTab === cat.id
+                    ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 shadow-sm"
+                    : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                }`}
               >
-                <div className="flex items-center gap-4 mb-6">
-                  <div
-                    className={`w-12 h-12 rounded-xl ${
-                      skillCategories.find((c) => c.id === activeCategory)
-                        ?.gradient
-                    } flex items-center justify-center glow`}
-                  >
-                    {(() => {
-                      const IconComponent = skillCategories.find(
-                        (c) => c.id === activeCategory
-                      )?.icon;
-                      return IconComponent ? (
-                        <IconComponent className="w-6 h-6 text-white" />
-                      ) : null;
-                    })()}
-                  </div>
-                  <h3 className="text-2xl font-semibold text-white text-heading">
-                    {
-                      skillCategories.find((c) => c.id === activeCategory)
-                        ?.title
-                    }
-                  </h3>
-                </div>
+                {cat.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-                <div className="space-y-4">
-                  {skillCategories
-                    .find((c) => c.id === activeCategory)
-                    ?.skills.map((skill, index) => (
-                      <SkillBar
-                        key={skill.name}
-                        skill={skill}
-                        isVisible={inView}
-                      />
-                    ))}
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Right Column - Visual Representation */}
-            <motion.div
-              className="space-y-8"
-              initial={{ opacity: 0, x: 20 }}
-              animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+        {/* Skills Bento Matrix */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          {filteredSkills.map((skill) => (
+            <div
+              key={skill.name}
+              className="bento-card p-4 flex items-center justify-between group hover:-translate-y-0.5 transition-all bg-white dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800"
             >
-              {/* Skill Radar Chart Placeholder */}
-              <div className="card p-8 glow h-80 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-32 h-32 mx-auto mb-4 relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-full animate-pulse"></div>
-                    <div
-                      className="absolute inset-4 bg-gradient-to-br from-blue-500/20 to-pink-500/20 rounded-full animate-pulse"
-                      style={{ animationDelay: "0.5s" }}
-                    ></div>
-                    <div
-                      className="absolute inset-8 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 rounded-full animate-pulse"
-                      style={{ animationDelay: "1s" }}
-                    ></div>
-                  </div>
-                  <h4 className="text-lg font-semibold text-white mb-2">
-                    Skill Visualization
+              <div>
+                <div className="flex items-center gap-2">
+                  <h4 className="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    {skill.name}
                   </h4>
-                  <p className="text-slate-400 text-sm">
-                    Interactive skill radar chart coming soon
-                  </p>
+                  {skill.status === "Primary" && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                  )}
                 </div>
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 font-mono">
+                  {skill.note}
+                </p>
               </div>
 
-              {/* Quick Stats */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="card p-6 glow text-center">
-                  <div className="text-3xl font-bold gradient-text mb-2">6</div>
-                  <div className="text-sm text-slate-400">Categories</div>
-                </div>
-                <div className="card p-6 glow text-center">
-                  <div className="text-3xl font-bold gradient-text mb-2">
-                    36
-                  </div>
-                  <div className="text-sm text-slate-400">Technologies</div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-
-          {/* Modern Additional Skills */}
-          <motion.div variants={itemVariants} className="mt-20">
-            <div className="card p-8 glow">
-              <h3 className="text-2xl font-semibold text-white mb-6 text-heading text-center">
-                Additional Skills & Tools
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                  "Redux",
-                  "Context API",
-                  "React Query",
-                  "Jest",
-                  "Cypress",
-                  "Storybook",
-                  "Webpack",
-                  "Vite",
-                  "NPM",
-                  "Yarn",
-                  "Linux",
-                  "MacOS",
-                  "Windows",
-                  "Agile",
-                  "Scrum",
-                  "Kanban",
-                  "TDD",
-                  "BDD",
-                  "Microservices",
-                  "REST",
-                  "GraphQL",
-                  "WebSockets",
-                  "OAuth",
-                  "JWT",
-                  "SSL/TLS",
-                ].map((skill, index) => (
-                  <motion.div
-                    key={skill}
-                    className="px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 text-center"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={
-                      inView
-                        ? { opacity: 1, scale: 1 }
-                        : { opacity: 0, scale: 0.8 }
-                    }
-                    transition={{ duration: 0.3, delay: index * 0.02 }}
-                    whileHover={{
-                      scale: 1.05,
-                      borderColor: "rgba(0, 255, 255, 0.3)",
-                    }}
-                  >
-                    <span className="text-sm text-slate-300 font-medium">
-                      {skill}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
+              <span
+                className={`text-[10px] font-mono px-2 py-0.5 rounded-full border font-medium ${
+                  skill.status === "Primary"
+                    ? "bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-500/10 dark:text-indigo-300 dark:border-indigo-500/20 font-semibold"
+                    : "bg-zinc-100 text-zinc-700 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700"
+                }`}
+              >
+                {skill.status}
+              </span>
             </div>
-          </motion.div>
-        </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,357 +1,185 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import {
   Mail,
   Phone,
   MapPin,
-  Send,
-  CheckCircle,
-  AlertCircle,
+  Linkedin,
+  Github,
+  Copy,
+  Check,
+  ArrowUpRight,
+  Clock,
+  Sparkles,
+  ShieldCheck,
+  SendHorizontal,
 } from "lucide-react";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
 
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
-    },
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText("nizamshan27@gmail.com");
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
+  const handleCopyPhone = () => {
+    navigator.clipboard.writeText("+919481267420");
+    setCopiedPhone(true);
+    setTimeout(() => setCopiedPhone(false), 2000);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-
-    // Simulate form submission
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      setSubmitStatus("success");
-      setFormData({ name: "", email: "", subject: "", message: "" });
-    } catch (error) {
-      setSubmitStatus("error");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const contactInfo = [
+  const channels = [
     {
-      icon: Mail,
-      title: "Email",
+      title: "Direct Email",
       value: "nizamshan27@gmail.com",
-      link: "mailto:nizamshan27@gmail.com",
-      color: "from-blue-500 to-cyan-500",
+      action: handleCopyEmail,
+      actionText: copiedEmail ? "Copied to Clipboard" : "Copy Email",
+      icon: copiedEmail ? Check : Copy,
+      secondaryHref: "mailto:nizamshan27@gmail.com",
+      secondaryText: "Open Mail App",
+      badge: "Fastest Response",
     },
     {
-      icon: Phone,
-      title: "Phone",
+      title: "LinkedIn Profile",
+      value: "linkedin.com/in/nizamshan27",
+      actionHref: "https://www.linkedin.com/in/nizamshan27/",
+      actionText: "View Profile",
+      icon: ArrowUpRight,
+      badge: "Professional Network",
+      external: true,
+    },
+    {
+      title: "GitHub Portfolio",
+      value: "github.com/Nizam-shan",
+      actionHref: "https://github.com/Nizam-shan",
+      actionText: "Explore Repositories",
+      icon: ArrowUpRight,
+      badge: "Open Source Code",
+      external: true,
+    },
+    {
+      title: "Direct Call & WhatsApp",
       value: "+91 9481267420",
-      link: "tel:+919481267420",
-      color: "from-green-500 to-emerald-500",
-    },
-    {
-      icon: MapPin,
-      title: "Location",
-      value: "Bangalore, India",
-      link: "#",
-      color: "from-purple-500 to-pink-500",
+      action: handleCopyPhone,
+      actionText: copiedPhone ? "Copied to Clipboard" : "Copy Phone",
+      icon: copiedPhone ? Check : Copy,
+      secondaryHref: "tel:+919481267420",
+      secondaryText: "Call Number",
+      badge: "Immediate Contact",
     },
   ];
 
-  const ContactInfoCard = ({ info }) => (
-    <motion.div
-      variants={itemVariants}
-      className="glass rounded-2xl p-6 text-center hover:bg-white/5 transition-all duration-300 group"
-      whileHover={{ y: -5, scale: 1.02 }}
-    >
-      <div
-        className={`w-16 h-16 rounded-xl bg-gradient-to-br ${info.color} flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}
-      >
-        <info.icon className="w-8 h-8 text-white" />
-      </div>
-
-      <h3 className="text-lg font-semibold text-white mb-2">{info.title}</h3>
-
-      <motion.a
-        href={info.link}
-        className="text-slate-300 hover:text-primary-400 transition-colors duration-300"
-        whileHover={{ scale: 1.05 }}
-        aria-label={`Contact via ${info.title.toLowerCase()}`}
-      >
-        {info.value}
-      </motion.a>
-    </motion.div>
-  );
-
-  const InputField = ({
-    label,
-    name,
-    type = "text",
-    required = false,
-    placeholder,
-  }) => (
-    <div className="space-y-2">
-      <label
-        htmlFor={name}
-        className="block text-sm font-medium text-slate-300"
-      >
-        {label} {required && <span className="text-red-400">*</span>}
-      </label>
-      <input
-        type={type}
-        id={name}
-        name={name}
-        value={formData[name]}
-        onChange={handleInputChange}
-        required={required}
-        placeholder={placeholder}
-        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-        aria-describedby={`${name}-error`}
-      />
-    </div>
-  );
-
-  const TextAreaField = ({ label, name, required = false, placeholder }) => (
-    <div className="space-y-2">
-      <label
-        htmlFor={name}
-        className="block text-sm font-medium text-slate-300"
-      >
-        {label} {required && <span className="text-red-400">*</span>}
-      </label>
-      <textarea
-        id={name}
-        name={name}
-        value={formData[name]}
-        onChange={handleInputChange}
-        required={required}
-        placeholder={placeholder}
-        rows={5}
-        className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 resize-none"
-        aria-describedby={`${name}-error`}
-      />
-    </div>
-  );
-
   return (
-    <section id="contact" className="py-20 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-900 to-dark-950"></div>
+    <section id="connect" className="py-24 relative overflow-hidden bg-zinc-50 dark:bg-zinc-950/60">
+      {/* Anchor for backward compatibility */}
+      <div id="contact" className="absolute -top-20" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-        >
-          {/* Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-16">
-            <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-primary-500/30 mb-6"
-              whileHover={{ scale: 1.05 }}
-            >
-              <Mail className="w-4 h-4 text-primary-400" />
-              <span className="text-sm text-primary-300">Get In Touch</span>
-            </motion.div>
-
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              <span className="text-white">Let's Work </span>
-              <span className="gradient-text">Together</span>
-            </h2>
-
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-              Ready to start your next project? I'm here to help bring your
-              ideas to life. Let's discuss how we can work together to create
-              something amazing.
-            </p>
-          </motion.div>
-
-          {/* Contact Info Cards */}
-          <motion.div
-            variants={itemVariants}
-            className="grid md:grid-cols-3 gap-6 mb-16"
-          >
-            {contactInfo.map((info) => (
-              <ContactInfoCard key={info.title} info={info} />
-            ))}
-          </motion.div>
-
-          {/* Contact Form & Additional Info */}
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <motion.div variants={itemVariants}>
-              <div className="glass rounded-2xl p-8">
-                <h3 className="text-2xl font-semibold text-white mb-6">
-                  Send me a message
-                </h3>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <InputField
-                      label="Name"
-                      name="name"
-                      required
-                      placeholder="Your full name"
-                    />
-                    <InputField
-                      label="Email"
-                      name="email"
-                      type="email"
-                      required
-                      placeholder="your.email@example.com"
-                    />
-                  </div>
-
-                  <InputField
-                    label="Subject"
-                    name="subject"
-                    required
-                    placeholder="What's this about?"
-                  />
-
-                  <TextAreaField
-                    label="Message"
-                    name="message"
-                    required
-                    placeholder="Tell me about your project..."
-                  />
-
-                  {/* Submit Status */}
-                  {submitStatus && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className={`flex items-center gap-2 p-3 rounded-lg ${
-                        submitStatus === "success"
-                          ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                          : "bg-red-500/20 text-red-400 border border-red-500/30"
-                      }`}
-                    >
-                      {submitStatus === "success" ? (
-                        <CheckCircle className="w-5 h-5" />
-                      ) : (
-                        <AlertCircle className="w-5 h-5" />
-                      )}
-                      <span>
-                        {submitStatus === "success"
-                          ? "Message sent successfully! I'll get back to you soon."
-                          : "Something went wrong. Please try again."}
-                      </span>
-                    </motion.div>
-                  )}
-
-                  <motion.button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                    whileHover={!isSubmitting ? { scale: 1.02, y: -2 } : {}}
-                    whileTap={!isSubmitting ? { scale: 0.98 } : {}}
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5" />
-                        Send Message
-                      </>
-                    )}
-                  </motion.button>
-                </form>
-              </div>
-            </motion.div>
-
-            {/* Additional Info */}
-            <motion.div variants={itemVariants}>
-              <div className="space-y-8">
-                <div className="glass rounded-2xl p-8">
-                  <h3 className="text-2xl font-semibold text-white mb-6">
-                    Why work with me?
-                  </h3>
-                  <div className="space-y-4">
-                    {[
-                      "Fast response time - I typically reply within 24 hours",
-                      "Clear communication throughout the project",
-                      "Proven track record of successful deliveries",
-                      "Ongoing support and maintenance options",
-                      "Flexible collaboration approaches",
-                    ].map((benefit, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        <div className="w-2 h-2 bg-primary-500 rounded-full mt-2 flex-shrink-0"></div>
-                        <span className="text-slate-300">{benefit}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="glass rounded-2xl p-8">
-                  <h3 className="text-2xl font-semibold text-white mb-6">
-                    What I can help with
-                  </h3>
-                  <div className="space-y-4">
-                    {[
-                      "Web application development",
-                      "Mobile-responsive design",
-                      "API development and integration",
-                      "Database design and optimization",
-                      "Performance optimization",
-                      "Security implementation",
-                      "DevOps and deployment",
-                      "Technical consulting",
-                    ].map((service, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        <div className="w-2 h-2 bg-primary-500 rounded-full mt-2 flex-shrink-0"></div>
-                        <span className="text-slate-300">{service}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header */}
+        <div className="text-left mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-200 bg-white text-zinc-700 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 text-xs font-medium mb-3">
+            <SendHorizontal className="w-3.5 h-3.5 text-indigo-500" />
+            <span>Direct Channels</span>
           </div>
-        </motion.div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+            Let's Start a Conversation
+          </h2>
+          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mt-2 max-w-xl">
+            No messy forms or delays. Reach out directly through any channel below for roles, projects, or consulting.
+          </p>
+        </div>
+
+        {/* 2026 Connect Bento Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {channels.map((channel) => (
+            <div
+              key={channel.title}
+              className="bento-card p-6 flex flex-col justify-between group hover:-translate-y-1 transition-all bg-white dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700">
+                    {channel.badge}
+                  </span>
+                </div>
+
+                <h3 className="text-base font-bold text-zinc-900 dark:text-white mb-1">
+                  {channel.title}
+                </h3>
+                <p className="text-xs font-mono text-zinc-600 dark:text-zinc-300 break-all mb-6">
+                  {channel.value}
+                </p>
+              </div>
+
+              <div className="space-y-2 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                {channel.action ? (
+                  <button
+                    onClick={channel.action}
+                    className="w-full py-2.5 px-3 rounded-full text-xs font-semibold border border-zinc-300 dark:border-zinc-700 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <channel.icon className="w-3.5 h-3.5 text-indigo-500" />
+                    <span>{channel.actionText}</span>
+                  </button>
+                ) : (
+                  <a
+                    href={channel.actionHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-2.5 px-3 rounded-full text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition-all flex items-center justify-center gap-1.5"
+                  >
+                    <span>{channel.actionText}</span>
+                    <channel.icon className="w-3.5 h-3.5" />
+                  </a>
+                )}
+
+                {channel.secondaryHref && (
+                  <a
+                    href={channel.secondaryHref}
+                    className="w-full py-1.5 px-3 rounded-full text-[11px] font-semibold text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white text-center block transition-colors"
+                  >
+                    {channel.secondaryText}
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Status & Availability Strip */}
+        <div className="bento-card p-5 grid sm:grid-cols-3 gap-4 text-center sm:text-left divide-y sm:divide-y-0 sm:divide-x divide-zinc-200 dark:divide-zinc-800 bg-white dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800">
+          <div className="flex items-center gap-3 sm:justify-start justify-center pb-3 sm:pb-0">
+            <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400 flex-shrink-0">
+              <MapPin className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 uppercase font-semibold">Location</div>
+              <div className="text-xs font-bold text-zinc-900 dark:text-white">Bangalore, India (Open to Remote)</div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 sm:justify-start justify-center pt-3 sm:pt-0 sm:pl-5 pb-3 sm:pb-0">
+            <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-600 dark:text-indigo-400 flex-shrink-0">
+              <Clock className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 uppercase font-semibold">Turnaround Time</div>
+              <div className="text-xs font-bold text-zinc-900 dark:text-white">Under 24 Hours Guaranteed</div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 sm:justify-start justify-center pt-3 sm:pt-0 sm:pl-5">
+            <div className="w-8 h-8 rounded-full bg-sky-500/10 flex items-center justify-center text-sky-600 dark:text-sky-400 flex-shrink-0">
+              <ShieldCheck className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 uppercase font-semibold">Work Engagement</div>
+              <div className="text-xs font-bold text-zinc-900 dark:text-white">Senior Full-Time / Consulting</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
